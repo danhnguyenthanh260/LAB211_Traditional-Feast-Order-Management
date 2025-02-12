@@ -6,7 +6,6 @@
 package collections;
 
 import models.Customer;
-import models.FeastMenu;
 import java.util.ArrayList;
 import java.util.Scanner;
 import menu.Menu;
@@ -173,15 +172,6 @@ public class CustomerList {
     }
 
     public static void PlaceAFeastOrder() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter customer ID to place order: ");
-        String customerId = scanner.nextLine();
-        Customer cs = findCustomerByID(customerId);
-
-        System.out.println("Enter code of set to place order: ");
-        String setCode = scanner.nextLine();
-        FeastMenu fm = FeastMenuList.findFeastCode(setCode);
-        
-        int table = scanner.nextInt();
+        FeastOrderManagement.addFeastOrder();
     }
 }

@@ -23,19 +23,17 @@ import menu.Menu;
  */
 public class FeastMenuList {
 
-    private static List<FeastMenu> feastMenus = new ArrayList<>();
-    private static Set<String> feastMenuCode = new HashSet<>();
+    public static List<FeastMenu> feastMenuList = new ArrayList<>();
+    public static Set<String> feastMenuCode = new HashSet<>();
 
     private static FeastMenu dataToObject(String text) {
-        text = text.replaceAll("\"", "");
-        text = text.replaceAll("\\#", "\n");
         String[] parts = text.split(",", -1);
         if (parts.length == 4) {
             return new FeastMenu(
                     parts[0].trim(),
                     parts[1].trim(),
                     Double.parseDouble(parts[2].trim()),
-                    parts[3].trim()
+                    costumeIngredientsData(parts[3].trim())
             );
         } else {
             System.out.println("Invalid data format: " + text);
@@ -50,19 +48,19 @@ public class FeastMenuList {
             while ((line = br.readLine()) != null) {
                 FeastMenu fm = dataToObject(line);
                 if (fm != null) {
-                    feastMenus.add(fm);
+                    feastMenuList.add(fm);
                     feastMenuCode.add(fm.getId());
                 }
             }
         } catch (IOException e) {
             e.getStackTrace();
         }
-        Collections.sort(feastMenus, new FeastMenuComparator());
+        Collections.sort(feastMenuList, new FeastMenuComparator());
     }
 
     public static void showListFeastMenu() {
         Menu.displayFeastMenuBar();
-        for (FeastMenu feastMenu : feastMenus) {
+        for (FeastMenu feastMenu : feastMenuList) {
             System.out.println("Code       :" + feastMenu.getId() + "\n"
                     + "Name       :" + feastMenu.getFeastName() + "\n"
                     + "Price      :" + CustomerList.addCommaToPrice(feastMenu.getPrice()) + "\n"
@@ -73,9 +71,9 @@ public class FeastMenuList {
     }
 
     public static FeastMenu findFeastCode(String feastMenuCode) {
-        for (FeastMenu fm : feastMenus) {
-            if (fm.equals(feastMenuCode)) {
-                return fm;
+        for (FeastMenu fsCode : feastMenuList) {
+            if (feastMenuCode.contains(fsCode.getId())) {
+                return fsCode;
             }
         }
         return null;
@@ -84,5 +82,12 @@ public class FeastMenuList {
     public static String totalCostOfTable(int table, FeastMenu fs) {
         double totalPrice = (double) table * (fs.getPrice());
         return String.format("%,.0f", totalPrice);
+    }
+
+    public static String costumeIngredientsData(String text) {
+        text = text.replaceAll("\"", "");
+        text = text.replaceAll("\\#", "\n");
+        String costumeText = text;
+        return costumeText;
     }
 }

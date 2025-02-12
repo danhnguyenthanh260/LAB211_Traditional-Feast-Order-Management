@@ -5,17 +5,28 @@
  */
 package tools;
 
+import collections.CustomerList;
+import collections.FeastMenuList;
+import static collections.FeastOrderManagement.feastOrderList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.UUID;
 import menu.Menu;
+import models.Customer;
+import models.FeastMenu;
+import models.PLaceFeastOrder;
 
 /**
  *
  * @author DANH NGUYEN
  */
 public class Inputter {
-    
+
     boolean check = false;
 
     public static String getCustomerFirstCharacter() {
@@ -110,5 +121,88 @@ public class Inputter {
         } while (!check);
         return email;
     }
-   
+
+    public static int getOrderCode() {
+        int i = 0;
+        for (PLaceFeastOrder pLaceFeastOrder : feastOrderList) {
+            i++;
+            if (pLaceFeastOrder.getOrderCode() != i) {
+                return i;
+            }
+        }
+        return i;
+    }
+
+    public static String getCustomerCode() {
+        Customer customer;
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter customer code: ");
+            String customerCode = sc.nextLine();
+            customer = CustomerList.findCustomerByID(customerCode);
+            if (customer != null) {
+                break;
+            } else {
+                System.out.println("This customer had not registered yet!");
+            }
+        }
+
+        return customer.getCode();
+    }
+
+    public static String getFeastMenuCode() {
+        FeastMenu feastMenu;
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter feast menu code: ");
+            String feastMenuCode = sc.nextLine();
+            feastMenu = FeastMenuList.findFeastCode(feastMenuCode);
+            if (feastMenu != null) {
+                break;
+            } else {
+                System.out.println("There none of feast code existed under that code!");
+            }
+        }
+        return feastMenu.getId();
+    }
+
+    public static int inputNumOfTable() {
+        int numOfTable;
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter number of table: ");
+            numOfTable = sc.nextInt();
+
+            if (numOfTable > 0) {
+                break;
+            } else {
+                System.out.println("Invalid number of table!");
+            }
+        }
+        return numOfTable;
+    }
+
+    public static String inputDate() {
+        String dateTime = "";
+        LocalDate inputDay;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+        while (true) {
+            try {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("Enter date you want to order(dd-MM-YYYY): ");
+                dateTime = sc.nextLine();
+                inputDay = LocalDate.parse(dateTime, formatter);
+
+                if (inputDay.isAfter(LocalDate.now())) {
+                    break;
+                } else if (inputDay.isBefore(LocalDate.now())) {
+                    System.out.println("You must be enter a day after today!");
+                }
+
+            } catch (DateTimeException e) {
+                System.out.println("Invalid date format, please try again!");
+            }
+        }
+        return dateTime;
+    }
 }

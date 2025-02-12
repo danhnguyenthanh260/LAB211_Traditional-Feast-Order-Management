@@ -39,7 +39,7 @@ public class Main {
                     CustomerList.showFeastMenu();
                     break;
                 case 5:
-
+                    CustomerList.PlaceAFeastOrder();
                     break;
                 case 6:
 
