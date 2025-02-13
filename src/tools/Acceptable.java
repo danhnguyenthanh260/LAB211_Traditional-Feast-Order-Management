@@ -10,6 +10,7 @@ package tools;
  * @author DANH NGUYEN
  */
 public interface Acceptable {
+
     public final String CUS_ID_VALD = "^[CcGgKk]\\d{4}$";
     public final String NAME_VALID = "^.{2,25}$";
     public final String PHONE_VALID = "^0\\d{9}$";

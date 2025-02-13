@@ -8,8 +8,7 @@ package tools;
 import collections.CustomerList;
 import collections.FeastMenuList;
 import static collections.FeastOrderManagement.feastOrderList;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import static collections.FeastOrderManagement.getFeastMenuListInfor;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -147,7 +146,7 @@ public class Inputter {
             }
         }
 
-        return customer.getCode();
+        return customer.getCustomerCode();
     }
 
     public static String getFeastMenuCode() {
@@ -204,5 +203,15 @@ public class Inputter {
             }
         }
         return dateTime;
+    }
+
+    public static String totalCostOfSetMenu(int tables, String codeOfSetMenu) {
+        FeastMenu fm = getFeastMenuListInfor(codeOfSetMenu);
+        return String.format("%,.0f", (double) tables * fm.getPrice());
+    }
+
+    public static String OrderSetPrice(String codeOfSetMenu) {
+        FeastMenu fm = getFeastMenuListInfor(codeOfSetMenu);
+        return String.format("%,.0f", fm.getPrice());
     }
 }

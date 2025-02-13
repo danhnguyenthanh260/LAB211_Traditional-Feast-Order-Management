@@ -5,12 +5,21 @@
  */
 package collections;
 
+import static collections.CustomerList.customers;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import models.Customer;
 import models.FeastMenu;
 import models.PLaceFeastOrder;
 import tools.Inputter;
@@ -19,9 +28,15 @@ import tools.Inputter;
  *
  * @author DANH NGUYEN
  */
-public class FeastOrderManagement {
+public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
 
     public static List<PLaceFeastOrder> feastOrderList = new ArrayList<>();
+    public static boolean isSaved = true;
+
+    public int compare(PLaceFeastOrder fm1, PLaceFeastOrder fm2) {
+        int dateCompare = fm1.getEventDate().compareTo(fm2.getEventDate());
+        return dateCompare;
+    }
 
     public static void addFeastOrder() {
         int orderCode = Inputter.getOrderCode();
@@ -29,9 +44,11 @@ public class FeastOrderManagement {
         String codeOfSetMenu = Inputter.getFeastMenuCode();
         int numOfTable = Inputter.inputNumOfTable();
         String orderDate = Inputter.inputDate();
+        String totalCost = Inputter.totalCostOfSetMenu(numOfTable, codeOfSetMenu);
+        String orderSetPrice = Inputter.OrderSetPrice(codeOfSetMenu);
 
-        PLaceFeastOrder placeFeasrOrder = new PLaceFeastOrder(orderCode, customerCode, codeOfSetMenu, numOfTable, orderDate);
-
+        PLaceFeastOrder placeFeasrOrder = new PLaceFeastOrder(orderCode, customerCode, codeOfSetMenu, numOfTable, orderDate, totalCost, orderSetPrice);
+        isSaved = false;
         feastOrderList.add(placeFeasrOrder);
         printOrder(placeFeasrOrder);
     }
@@ -47,16 +64,11 @@ public class FeastOrderManagement {
         System.out.println("Set menu name   :" + fm.getFeastName());
         System.out.println("Event date      :" + pfo.getEventDate());
         System.out.println("Number of tables:" + pfo.getNumberOfTable());
-        System.out.println("Price           :" + fm.getPrice());
+        System.out.println("Price           :" + pfo.getOrderSetPrice());
         System.out.println("Ingredients     :\n" + fm.getIngredients());
         System.out.println("------------------------------------------------------------------------");
-        System.out.println("Total cost      :" + totalCostOfSetMenu(pfo.getNumberOfTable(), fm.getPrice()));
+        System.out.println("Total cost      :" + pfo.getTotalCost());
         System.out.println("------------------------------------------------------------------------");
-    }
-
-    public static String totalCostOfSetMenu(int tables, double feastPrice) {
-        return String.format("%,.0f", (double) tables * feastPrice);
-
     }
 
     public static FeastMenu getFeastMenuListInfor(String codeOdSetMenu) {
@@ -124,6 +136,7 @@ public class FeastOrderManagement {
                         System.out.println("Invalid date format, please try again!");
                     }
                 }
+                isSaved = false;
             } else {
                 System.out.println("Invalid input, please try again!");
             }
@@ -141,10 +154,35 @@ public class FeastOrderManagement {
 
     public static boolean checkEventDateOccur(PLaceFeastOrder pfo) {
         LocalDate inputDay = LocalDate.parse(pfo.getEventDate());
-        if (inputDay.isBefore(inputDay)) {
+        if (inputDay.isBefore(LocalDate.now()) && inputDay.equals(LocalDate.now())) {
             return false;
         } else {
-        return true;
+            return true;
+        }
+    }
+
+    public static void readFromFile() {
+        try (FileInputStream fis = new FileInputStream("src/data/feast_order_service.dat");
+                ObjectInputStream ois = new ObjectInputStream(fis);) {
+            feastOrderList = (ArrayList<PLaceFeastOrder>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println("Can not find 'customer.dat'");
+        } catch (IOException e) {
+            System.out.println("Error to read from file " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found");
+        }
+    }
+
+    public static void writeToFile() {
+        try (FileOutputStream fos = new FileOutputStream("src/data/feast_order_service.dat");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);) {
+            oos.writeObject(feastOrderList);
+            System.out.println("Order data has been successfully saved to `feast_order_service.dat`");
+        } catch (FileNotFoundException e) {
+            System.out.println("Can not find 'customer.dat'");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

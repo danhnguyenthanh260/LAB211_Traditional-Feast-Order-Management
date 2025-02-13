@@ -9,7 +9,8 @@ package models;
  *
  * @author DANH NGUYEN
  */
-public class FeastMenu {
+public class FeastMenu{
+
     private String id;
     private String feastName;
     private double price;
@@ -61,7 +62,5 @@ public class FeastMenu {
     public String toString() {
         return "feastMenu{" + "id=" + id + ", feastName=" + feastName + ", price=" + price + ", ingredients=" + ingredients + '}';
     }
-    
-    
-    
+
 }

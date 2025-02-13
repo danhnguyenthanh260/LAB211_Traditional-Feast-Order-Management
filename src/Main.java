@@ -3,7 +3,7 @@ import collections.CustomerList;
 import collections.FeastMenuList;
 import java.util.Scanner;
 import menu.Menu;
-
+import collections.FeastOrderManagement;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,6 +21,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice;
         FeastMenuList.loadFromFile();
+        CustomerList.readFromFile();
+        FeastOrderManagement.readFromFile();
 
         do {
             Menu.printMainMenu();
@@ -39,13 +41,14 @@ public class Main {
                     CustomerList.showFeastMenu();
                     break;
                 case 5:
-                    CustomerList.PlaceAFeastOrder();
+                    FeastOrderManagement.addFeastOrder();
                     break;
                 case 6:
-
+                    FeastOrderManagement.updateOrderInfor();
                     break;
                 case 7:
-
+                    CustomerList.writeToFile();
+                    FeastOrderManagement.writeToFile();
                     break;
                 case 8:
 
@@ -60,7 +63,7 @@ public class Main {
                     System.out.println("This function is not available.");
                     break;
             }
-        } while (choice != 9);
+        } while (choice > 1 && choice < 9);
 
     }
 

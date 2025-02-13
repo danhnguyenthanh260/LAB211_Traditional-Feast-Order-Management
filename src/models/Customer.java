@@ -5,14 +5,16 @@
  */
 package models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author DANH NGUYEN
  */
-public class Customer {
+public class Customer implements Serializable{
 
-    private String code;
-    private String name;
+    private String customerCode;
+    private String customerName;
     private String phoneNumber;
     private String email;
 
@@ -20,26 +22,26 @@ public class Customer {
     }
 
     public Customer(String code, String name, String phoneNumber, String email) {
-        this.code = code;
-        this.name = name;
+        this.customerCode = code;
+        this.customerName = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
-    public String getCode() {
-        return code;
+    public String getCustomerCode() {
+        return customerCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 
-    public String getName() {
-        return name;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getPhoneNumber() {
@@ -60,7 +62,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" + "code=" + code + ", name=" + name + ", phoneNumber=" + phoneNumber + ", email=" + email + '}';
+        return String.format("%-11s | %-22s| %-11s| %-28s\n", customerCode, customerName, phoneNumber, email);
     }
 
 }
