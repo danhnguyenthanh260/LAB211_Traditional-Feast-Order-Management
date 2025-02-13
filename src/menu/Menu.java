@@ -32,7 +32,7 @@ public class Menu {
 
     public static void displaySearchingListBar() {
         System.out.println("---------------------------------------------------------------------------------------------------------");
-        System.out.println("Code  | Customer Name                  | Phone      | Email                       ");
+        System.out.println("Code   | Customer Name                  | Phone      | Email                       ");
         System.out.println("---------------------------------------------------------------------------------------------------------");
 
     }
@@ -41,6 +41,12 @@ public class Menu {
         DisplayBarLine();
         System.out.println("List of Set Menus for ordering party:");
         DisplayBarLine();
+    }
+
+    public static void printPlaceFeastOrderMenu() {
+        System.out.println("---------------------------------------------------------------------------------------------------------");
+        System.out.println("ID   | Event date  | Customer ID| Set Menu| Price     | Tables | Cost                      ");
+        System.out.println("---------------------------------------------------------------------------------------------------------");
     }
 
 }

@@ -5,7 +5,6 @@
  */
 package collections;
 
-import static collections.CustomerList.customers;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,13 +15,14 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import models.Customer;
 import models.FeastMenu;
 import models.PLaceFeastOrder;
 import tools.Inputter;
+import menu.Menu;
 
 /**
  *
@@ -33,8 +33,8 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
     public static List<PLaceFeastOrder> feastOrderList = new ArrayList<>();
     public static boolean isSaved = true;
 
-    public int compare(PLaceFeastOrder fm1, PLaceFeastOrder fm2) {
-        int dateCompare = fm1.getEventDate().compareTo(fm2.getEventDate());
+    public int compare(PLaceFeastOrder pfo1, PLaceFeastOrder pfo2) {
+        int dateCompare = pfo1.getEventDate().compareTo(pfo2.getEventDate());
         return dateCompare;
     }
 
@@ -78,6 +78,14 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
             }
         }
         return null;
+    }
+
+    public static void printFeastOrderList() {
+        Collections.sort(feastOrderList, new FeastOrderManagement());
+        Menu.printPlaceFeastOrderMenu();
+        for (PLaceFeastOrder pLaceFeastOrder : feastOrderList) {
+            System.out.println(pLaceFeastOrder);
+        }
     }
 
     public static void updateOrderInfor() {

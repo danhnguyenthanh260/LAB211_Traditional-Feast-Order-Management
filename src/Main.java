@@ -51,19 +51,13 @@ public class Main {
                     FeastOrderManagement.writeToFile();
                     break;
                 case 8:
-
-                    break;
-                case 9:
-
-                    break;
-                case 10:
-
+                    CustomerList.displayCustomerOrOrderList();
                     break;
                 default:
                     System.out.println("This function is not available.");
                     break;
             }
-        } while (choice > 1 && choice < 9);
+        } while (choice > 1 || choice < 9);
 
     }
 

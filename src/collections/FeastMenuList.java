@@ -15,20 +15,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import models.FeastMenu;
-import tools.DataComparator;
 import menu.Menu;
 
 /**
  *
  * @author DANH NGUYEN
  */
-public class FeastMenuList implements Comparator<FeastMenu>{
+public class FeastMenuList implements Comparator<FeastMenu> {
 
     public static List<FeastMenu> feastMenuList = new ArrayList<>();
     public static Set<String> feastMenuCode = new HashSet<>();
-    
-       public int compare(FeastMenu fm1, FeastMenu fm2) {
-        // Example: Sort by price, then by name
+
+    public int compare(FeastMenu fm1, FeastMenu fm2) {
         int priceComparison = Double.compare(fm1.getPrice(), fm2.getPrice());
         if (priceComparison != 0) {
             return priceComparison;
@@ -66,7 +64,7 @@ public class FeastMenuList implements Comparator<FeastMenu>{
         } catch (IOException e) {
             e.getStackTrace();
         }
-        Collections.sort(feastMenuList, new DataComparator());
+        Collections.sort(feastMenuList, new FeastMenuList());
     }
 
     public static void showListFeastMenu() {

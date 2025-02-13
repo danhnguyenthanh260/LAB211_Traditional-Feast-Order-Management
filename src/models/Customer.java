@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author DANH NGUYEN
  */
-public class Customer implements Serializable{
+public class Customer implements Serializable {
 
     private String customerCode;
     private String customerName;
@@ -62,7 +62,8 @@ public class Customer implements Serializable{
 
     @Override
     public String toString() {
-        return String.format("%-11s | %-22s| %-11s| %-28s\n", customerCode, customerName, phoneNumber, email);
+        return String.format("%-6s | %-31s| %-11s| %-28s", customerCode, customerName, phoneNumber, email);
     }
 
 }
+

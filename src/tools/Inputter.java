@@ -184,7 +184,7 @@ public class Inputter {
     public static String inputDate() {
         String dateTime = "";
         LocalDate inputDay;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         while (true) {
             try {
                 Scanner sc = new Scanner(System.in);

@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import models.Customer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 import menu.Menu;
@@ -26,9 +27,9 @@ import tools.Inputter;
 public class CustomerList implements Comparator<Customer> {
 
     public static ArrayList<Customer> customers = new ArrayList<>();
-    
-     public int compare(Customer fm1, Customer fm2) {
-        int dateCompare = fm1.getCustomerName().compareTo(fm2.getCustomerName());
+
+    public int compare(Customer cs1, Customer cs2) {
+        int dateCompare = cs1.getCustomerName().compareTo(cs2.getCustomerName());
         return dateCompare;
     }
 
@@ -158,6 +159,7 @@ public class CustomerList implements Comparator<Customer> {
     }
 
     public static void printCustomerList(ArrayList<Customer> matchCustomer) {
+        Collections.sort(customers, new CustomerList());
         Menu.displaySearchingListBar();
         for (Customer customer : matchCustomer) {
             System.out.println(customer);
@@ -212,5 +214,27 @@ public class CustomerList implements Comparator<Customer> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void displayCustomerOrOrderList() {
+        Scanner sc = new Scanner(System.in);
+        int choice = 0;
+        do {
+            System.out.println("Which one do you want to display?"
+                    + " 1-Customer "
+                    + " 2-OrderList");
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    printCustomerList(customers);
+                    break;
+                case 2:
+                    FeastOrderManagement.printFeastOrderList();
+                    break;
+                default:
+                    System.out.println("Please choose 1-Customer or 2-OrderList!");
+                    break;
+            }
+        } while (choice != 1 && choice != 2);
     }
 }

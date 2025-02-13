@@ -92,7 +92,7 @@ public class PLaceFeastOrder implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%-6s | %-22s| %-6s| %-6s| %-10s| %-6s| %-10s", customerCode, eventDate, customerCode, codeOfSetMenu, orderSetPrice, numberOfTable, totalCost);
+        return String.format("%-4s | %-11s| %-11s| %-8s| %-10s| %-7s| %-12s", customerCode, eventDate, customerCode, codeOfSetMenu, orderSetPrice, numberOfTable, totalCost);
     }
 
 }

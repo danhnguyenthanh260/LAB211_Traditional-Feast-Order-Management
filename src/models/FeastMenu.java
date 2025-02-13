@@ -9,7 +9,7 @@ package models;
  *
  * @author DANH NGUYEN
  */
-public class FeastMenu{
+public class FeastMenu {
 
     private String id;
     private String feastName;
