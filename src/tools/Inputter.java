@@ -136,7 +136,7 @@ public class Inputter {
         Customer customer;
         while (true) {
             Scanner sc = new Scanner(System.in);
-            System.out.println("Enter customer code: ");
+            System.out.print("Enter customer code: ");
             String customerCode = sc.nextLine();
             customer = CustomerList.findCustomerByID(customerCode);
             if (customer != null) {
@@ -153,7 +153,7 @@ public class Inputter {
         FeastMenu feastMenu;
         while (true) {
             Scanner sc = new Scanner(System.in);
-            System.out.println("Enter feast menu code: ");
+            System.out.print("Enter feast menu code: ");
             String feastMenuCode = sc.nextLine();
             feastMenu = FeastMenuList.findFeastCode(feastMenuCode);
             if (feastMenu != null) {
@@ -169,7 +169,7 @@ public class Inputter {
         int numOfTable;
         while (true) {
             Scanner sc = new Scanner(System.in);
-            System.out.println("Enter number of table: ");
+            System.out.print("Enter number of table: ");
             numOfTable = sc.nextInt();
 
             if (numOfTable > 0) {
@@ -188,7 +188,7 @@ public class Inputter {
         while (true) {
             try {
                 Scanner sc = new Scanner(System.in);
-                System.out.println("Enter date you want to order(dd-MM-YYYY): ");
+                System.out.print("Enter date you want to order(dd/MM/YYYY): ");
                 dateTime = sc.nextLine();
                 inputDay = LocalDate.parse(dateTime, formatter);
 

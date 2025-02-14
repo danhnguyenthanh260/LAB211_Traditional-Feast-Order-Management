@@ -6,6 +6,7 @@
 package models;
 
 import java.io.Serializable;
+import collections.CustomerList;
 
 /**
  *
@@ -62,7 +63,7 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%-6s | %-31s| %-11s| %-28s", customerCode, customerName, phoneNumber, email);
+        return String.format("%-6s | %-31s| %-11s| %-28s", customerCode, CustomerList.customCustomerName(customerName) , phoneNumber, email);
     }
 
 }

@@ -103,6 +103,7 @@ public class CustomerList implements Comparator<Customer> {
                 String updatedEmail = scanner.nextLine();
                 if (!updatedEmail.equals("") && Acceptable.isValid(updatedEmail, Acceptable.EMAIL_VALID)) {
                     st.setEmail(updatedEmail);
+                    break;
                 } else if (updatedEmail.equals("")) {
                     System.out.println("Skipping");
                     break;
@@ -156,6 +157,15 @@ public class CustomerList implements Comparator<Customer> {
             System.out.println("No one matches the search criteria!");
         }
 
+    }
+    
+    public static Customer getCustomerById(String customerCode) {
+        for (Customer customer : customers) {
+            if(customer.getCustomerCode().contains(customerCode)) {
+            return customer;
+            }
+        }
+        return null;
     }
 
     public static void printCustomerList(ArrayList<Customer> matchCustomer) {

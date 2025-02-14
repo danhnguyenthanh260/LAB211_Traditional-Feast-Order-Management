@@ -23,6 +23,7 @@ import models.FeastMenu;
 import models.PLaceFeastOrder;
 import tools.Inputter;
 import menu.Menu;
+import models.Customer;
 
 /**
  *
@@ -55,11 +56,15 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
 
     public static void printOrder(PLaceFeastOrder pfo) {
         FeastMenu fm = getFeastMenuListInfor(pfo.getCodeOfSetMenu());
+        Customer cs = CustomerList.getCustomerById(pfo.getCustomerCode());
         System.out.println("------------------------------------------------------------------------");
-        System.out.println("Customer order information  [Order ID: " + pfo.getCodeOfSetMenu() + "]");
+        System.out.println("Customer order information  [Order ID: " + pfo.getOrderCode() + "]");
         System.out.println("------------------------------------------------------------------------");
-        System.out.println(pfo.getCustomerCode());
-        System.out.println("------------------------------------------------------------------------");
+        System.out.println("Customer code   :" + pfo.getCustomerCode());
+        System.out.println("Customer name   :" + cs.getCustomerName());
+        System.out.println("Phone number    :" + cs.getPhoneNumber());
+        System.out.println("Email           :" + cs.getEmail());
+        System.out.println(pfo.getCodeOfSetMenu());     
         System.out.println("Code of Set Menu:" + pfo.getCodeOfSetMenu());
         System.out.println("Set menu name   :" + fm.getFeastName());
         System.out.println("Event date      :" + pfo.getEventDate());
@@ -89,31 +94,35 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
     }
 
     public static void updateOrderInfor() {
+        Scanner sc = new Scanner(System.in);
         while (true) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Enter order code to update: ");
+            System.out.println("Enter ORDER CODE to update: ");
             int orderCode = sc.nextInt();
             PLaceFeastOrder pfo = findOrderId(orderCode);
+            if(pfo == null) {
+                System.out.println("There're no order code registed with: " + orderCode);
+            break;
+            }
             boolean checkEventDay = checkEventDateOccur(pfo);
-
-            if (pfo != null && checkEventDay) {
+            sc.nextLine();
+            if (checkEventDay) {
                 while (true) {
-                    System.out.println("Enter new code of set menu, If Not Change PRESS'ENTER'");
+                    System.out.println("Enter new CODE OD SET MENU, If Not Change PRESS 'ENTER'");
                     String codeOfSetMenu = sc.nextLine();
                     if (!codeOfSetMenu.isEmpty()) {
                         pfo.setCodeOfSetMenu(codeOfSetMenu);
                         break;
                     } else if (codeOfSetMenu.isEmpty()) {
-                        System.out.println("Skipping");
+                        System.out.print("Skipping");
                         break;
                     }
                 }
 
                 while (true) {
-                    System.out.println("Enter new number of table, If Not Change PRESS'ENTER'");
+                    System.out.println("Enter new NUMBER OF TABLE, If Not Change PRESS 'ENTER'");
                     String updateNumOfTable = sc.nextLine();
-                    if (!updateNumOfTable.isEmpty()) {
-                        System.out.println("Skipping");
+                    if (updateNumOfTable.isEmpty()) {
+                        System.out.print("Skipping");
                         break;
                     } else if (Integer.parseInt(updateNumOfTable) > 0) {
                         pfo.setNumberOfTable(orderCode);
@@ -122,11 +131,11 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
                 }
 
                 while (true) {
-                    System.out.println("Enter date you want to update order(dd-MM-YYYY): ");
+                    System.out.println("Enter EVENT DATE you want to update( dd/MM/YYYY), If Not Change PRESS 'ENTER' ");
                     String dateTime = sc.nextLine();
 
                     if (dateTime.isEmpty()) {
-                        System.out.println("Skipping");
+                        System.out.print("Skipping");
                         break;
                     }
                     try {
@@ -144,10 +153,11 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
                         System.out.println("Invalid date format, please try again!");
                     }
                 }
-                isSaved = false;
+                break;
             } else {
-                System.out.println("Invalid input, please try again!");
+                System.out.println("This ORDER has been expired!");
             }
+
         }
     }
 
@@ -161,11 +171,17 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
     }
 
     public static boolean checkEventDateOccur(PLaceFeastOrder pfo) {
-        LocalDate inputDay = LocalDate.parse(pfo.getEventDate());
-        if (inputDay.isBefore(LocalDate.now()) && inputDay.equals(LocalDate.now())) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            LocalDate inputDay = LocalDate.parse(pfo.getEventDate(), formatter);
+            if (inputDay.isBefore(LocalDate.now()) && inputDay.equals(LocalDate.now())) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
-        } else {
-            return true;
         }
     }
 
