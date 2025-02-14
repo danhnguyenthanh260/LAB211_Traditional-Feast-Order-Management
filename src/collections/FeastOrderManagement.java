@@ -64,7 +64,8 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         System.out.println("Customer name   :" + cs.getCustomerName());
         System.out.println("Phone number    :" + cs.getPhoneNumber());
         System.out.println("Email           :" + cs.getEmail());
-        System.out.println(pfo.getCodeOfSetMenu());     
+        System.out.println("------------------------------------------------------------------------");
+        System.out.println(pfo.getCodeOfSetMenu());
         System.out.println("Code of Set Menu:" + pfo.getCodeOfSetMenu());
         System.out.println("Set menu name   :" + fm.getFeastName());
         System.out.println("Event date      :" + pfo.getEventDate());
@@ -99,9 +100,9 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
             System.out.println("Enter ORDER CODE to update: ");
             int orderCode = sc.nextInt();
             PLaceFeastOrder pfo = findOrderId(orderCode);
-            if(pfo == null) {
+            if (pfo == null) {
                 System.out.println("There're no order code registed with: " + orderCode);
-            break;
+                break;
             }
             boolean checkEventDay = checkEventDateOccur(pfo);
             sc.nextLine();

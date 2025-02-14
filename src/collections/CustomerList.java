@@ -156,13 +156,12 @@ public class CustomerList implements Comparator<Customer> {
         } else {
             System.out.println("No one matches the search criteria!");
         }
-
     }
-    
+
     public static Customer getCustomerById(String customerCode) {
         for (Customer customer : customers) {
-            if(customer.getCustomerCode().contains(customerCode)) {
-            return customer;
+            if (customer.getCustomerCode().contains(customerCode)) {
+                return customer;
             }
         }
         return null;
