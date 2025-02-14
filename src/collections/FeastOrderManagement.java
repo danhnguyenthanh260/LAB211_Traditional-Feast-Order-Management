@@ -65,7 +65,6 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         System.out.println("Phone number    :" + cs.getPhoneNumber());
         System.out.println("Email           :" + cs.getEmail());
         System.out.println("------------------------------------------------------------------------");
-        System.out.println(pfo.getCodeOfSetMenu());
         System.out.println("Code of Set Menu:" + pfo.getCodeOfSetMenu());
         System.out.println("Set menu name   :" + fm.getFeastName());
         System.out.println("Event date      :" + pfo.getEventDate());
@@ -108,22 +107,22 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
             sc.nextLine();
             if (checkEventDay) {
                 while (true) {
-                    System.out.println("Enter new CODE OD SET MENU, If Not Change PRESS 'ENTER'");
+                    System.out.print("Enter new CODE OD SET MENU, If Not Change PRESS 'ENTER'");
                     String codeOfSetMenu = sc.nextLine();
                     if (!codeOfSetMenu.isEmpty()) {
                         pfo.setCodeOfSetMenu(codeOfSetMenu);
                         break;
                     } else if (codeOfSetMenu.isEmpty()) {
-                        System.out.print("Skipping");
+                        System.out.println("Skipping");
                         break;
                     }
                 }
 
                 while (true) {
-                    System.out.println("Enter new NUMBER OF TABLE, If Not Change PRESS 'ENTER'");
+                    System.out.print("Enter new NUMBER OF TABLE, If Not Change PRESS 'ENTER'");
                     String updateNumOfTable = sc.nextLine();
                     if (updateNumOfTable.isEmpty()) {
-                        System.out.print("Skipping");
+                        System.out.println("Skipping");
                         break;
                     } else if (Integer.parseInt(updateNumOfTable) > 0) {
                         pfo.setNumberOfTable(orderCode);
@@ -132,11 +131,11 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
                 }
 
                 while (true) {
-                    System.out.println("Enter EVENT DATE you want to update( dd/MM/YYYY), If Not Change PRESS 'ENTER' ");
+                    System.out.print("Enter EVENT DATE you want to update( dd/MM/YYYY), If Not Change PRESS 'ENTER' ");
                     String dateTime = sc.nextLine();
 
                     if (dateTime.isEmpty()) {
-                        System.out.print("Skipping");
+                        System.out.println("Skipping");
                         break;
                     }
                     try {
@@ -190,6 +189,7 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         try (FileInputStream fis = new FileInputStream("src/data/feast_order_service.dat");
                 ObjectInputStream ois = new ObjectInputStream(fis);) {
             feastOrderList = (ArrayList<PLaceFeastOrder>) ois.readObject();
+            System.out.println("Had been upload data from `feast_order_service.dat``");
         } catch (FileNotFoundException e) {
             System.out.println("Can not find 'customer.dat'");
         } catch (IOException e) {

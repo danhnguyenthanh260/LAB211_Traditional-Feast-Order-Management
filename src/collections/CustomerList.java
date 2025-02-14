@@ -204,6 +204,7 @@ public class CustomerList implements Comparator<Customer> {
         try (FileInputStream fis = new FileInputStream("src/data/customer.dat");
                 ObjectInputStream ois = new ObjectInputStream(fis);) {
             customers = (ArrayList<Customer>) ois.readObject();
+            System.out.println("Had been upload data from 'customer.dat'");
         } catch (FileNotFoundException e) {
             System.out.println("Can not find 'customer.dat'");
         } catch (IOException e) {

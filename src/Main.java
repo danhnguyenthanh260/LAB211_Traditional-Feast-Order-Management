@@ -54,10 +54,10 @@ public class Main {
                     CustomerList.displayCustomerOrOrderList();
                     break;
                 default:
-                    System.out.println("This function is not available.");
+                    System.out.println("Exít program successfully!.");
                     break;
             }
-        } while (choice > 1 || choice < 9);
+        } while (choice > 1 && choice < 9);
 
     }
 
