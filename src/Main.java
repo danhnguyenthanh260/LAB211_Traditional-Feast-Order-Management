@@ -57,7 +57,7 @@ public class Main {
                     System.out.println("Exít program successfully!.");
                     break;
             }
-        } while (choice > 1 && choice < 9);
+        } while (choice > 0 && choice < 9);
 
     }
 

@@ -6,6 +6,7 @@
 package collections;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,8 +62,11 @@ public class FeastMenuList implements Comparator<FeastMenu> {
                     feastMenuCode.add(fm.getId());
                 }
             }
+            System.out.println("Had been upload data from `FeastMenu.csv`");
+        } catch (FileNotFoundException e) {
+            System.out.println("Can not find file `FeastMenu.csv`");
         } catch (IOException e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
         Collections.sort(feastMenuList, new FeastMenuList());
     }
@@ -81,7 +85,7 @@ public class FeastMenuList implements Comparator<FeastMenu> {
 
     public static FeastMenu findFeastCode(String feastMenuCode) {
         for (FeastMenu fsCode : feastMenuList) {
-            if (feastMenuCode.contains(fsCode.getId())) {
+            if (feastMenuCode.toUpperCase().contains(fsCode.getId())) {
                 return fsCode;
             }
         }

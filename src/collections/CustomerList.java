@@ -29,8 +29,7 @@ public class CustomerList implements Comparator<Customer> {
     public static ArrayList<Customer> customers = new ArrayList<>();
 
     public int compare(Customer cs1, Customer cs2) {
-        int dateCompare = cs1.getCustomerName().compareTo(cs2.getCustomerName());
-        return dateCompare;
+        return cs1.getCustomerName().compareTo(cs2.getCustomerName());
     }
 
     public static void addNewCustomer() {
@@ -41,7 +40,6 @@ public class CustomerList implements Comparator<Customer> {
 
         Customer customer = new Customer(id, name, phone, email);
         customers.add(customer);
-        FeastOrderManagement.isSaved = false;
         System.out.println("Add new customer successfull!");
         continueAddCustomer();
     }
@@ -112,7 +110,6 @@ public class CustomerList implements Comparator<Customer> {
                 }
 
             }
-            FeastOrderManagement.isSaved = false;
             continueUpdateCustomer();
         } else {
             System.out.println("This customer has not registered yet.");
@@ -188,8 +185,12 @@ public class CustomerList implements Comparator<Customer> {
     }
 
     public static String customCustomerName(String name) {
-        int lastIndexOfSpace = name.lastIndexOf(" ");
-        return (name.substring(lastIndexOfSpace + 1) + "," + name.substring(0, lastIndexOfSpace));
+        String[] nameParts = name.split("\\s+");
+        if (nameParts.length > 1) {
+            int lastIndexOfSpace = name.lastIndexOf(" ");
+            return (name.substring(lastIndexOfSpace + 1) + "," + name.substring(0, lastIndexOfSpace));
+        }
+        return name + ",";
     }
 
     public static void showFeastMenu() {
@@ -198,6 +199,24 @@ public class CustomerList implements Comparator<Customer> {
 
     public static String addCommaToPrice(double price) {
         return String.format("%,.0f", price);
+    }
+    
+    public static boolean dupplicatePhoneNumber(String phone) {
+        for (Customer customer : customers) {
+            if(customer.getPhoneNumber().equals(phone)) {
+            return false;
+            }
+        }
+        return true;
+    }
+    
+    public static boolean dupplicateEmail(String email) {
+        for (Customer customer : customers) {
+            if(customer.getEmail().equals(email)) {
+            return false;
+            }
+        }
+        return true;
     }
 
     public static void readFromFile() {
@@ -228,11 +247,12 @@ public class CustomerList implements Comparator<Customer> {
 
     public static void displayCustomerOrOrderList() {
         Scanner sc = new Scanner(System.in);
-        int choice = 0;
+        int choice;
         do {
-            System.out.println("Which one do you want to display?"
-                    + " 1-Customer "
+            System.out.println("Which one do you want to display?\n"
+                    + " 1-Customer \n"
                     + " 2-OrderList");
+            System.out.print("Your choice: ");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:

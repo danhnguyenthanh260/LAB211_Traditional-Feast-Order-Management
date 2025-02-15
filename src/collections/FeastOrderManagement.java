@@ -32,11 +32,9 @@ import models.Customer;
 public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
 
     public static List<PLaceFeastOrder> feastOrderList = new ArrayList<>();
-    public static boolean isSaved = true;
 
     public int compare(PLaceFeastOrder pfo1, PLaceFeastOrder pfo2) {
-        int dateCompare = pfo1.getEventDate().compareTo(pfo2.getEventDate());
-        return dateCompare;
+        return pfo1.getEventDate().compareTo(pfo2.getEventDate());
     }
 
     public static void addFeastOrder() {
@@ -49,7 +47,6 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         String orderSetPrice = Inputter.OrderSetPrice(codeOfSetMenu);
 
         PLaceFeastOrder placeFeasrOrder = new PLaceFeastOrder(orderCode, customerCode, codeOfSetMenu, numOfTable, orderDate, totalCost, orderSetPrice);
-        isSaved = false;
         feastOrderList.add(placeFeasrOrder);
         printOrder(placeFeasrOrder);
     }
@@ -182,6 +179,30 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static void deletePlaceOrder() {
+        Scanner sc = new Scanner(System.in);
+        PLaceFeastOrder deleteFeastOrder = null;
+        System.out.println("Enter order code you want to delete: ");
+        if (!sc.hasNextInt()) {
+            System.out.println("Invalid input! Order code must be a number.");
+            return;
+        }
+        int orderCode = sc.nextInt();
+
+        for (PLaceFeastOrder pLaceFeastOrder : feastOrderList) {
+            if (pLaceFeastOrder.getOrderCode() == orderCode) {
+                deleteFeastOrder = pLaceFeastOrder;
+                break;
+            }
+        }
+        if (deleteFeastOrder != null) {
+            feastOrderList.remove(deleteFeastOrder);
+            System.out.println("Successfully REMOVE feast order!");
+        } else {
+            System.out.println("There was no feast order under this order code!");
         }
     }
 
