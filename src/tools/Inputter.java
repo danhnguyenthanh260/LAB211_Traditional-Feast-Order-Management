@@ -27,19 +27,19 @@ import models.PLaceFeastOrder;
  * @author DANH NGUYEN
  */
 public class Inputter {
-    
+
     boolean check = false;
-    
+
     public static String getCustomerFirstCharacter() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         String customerFirstCharacter = "";
-        
+
         while (true) {
             Menu.DisplayBarLine();
             System.out.print("Choose customer first character (1.C--2.G--3.K): ");
-            
+
             try {
-                int choice = scanner.nextInt();
+                int choice = sc.nextInt();
                 switch (choice) {
                     case 1:
                         customerFirstCharacter = "C";
@@ -56,25 +56,24 @@ public class Inputter {
                 }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid campus! Choose a number");
-                scanner.next();
+                System.out.println("Invalid input! Please choose a number");
+                sc.next();
             }
-            
         }
         return customerFirstCharacter;
     }
-    
+
     public static String getCustomerId() {
         String customerFirstCharacter = getCustomerFirstCharacter();
-        
+
         String id = UUID.randomUUID().toString().replaceAll("[^0-9]", "");
         String uniqueId = id.substring(0, 4);
-        
+
         System.out.print("Customer ID: ");
         System.out.println(customerFirstCharacter + uniqueId);
         return customerFirstCharacter + uniqueId;
     }
-    
+
     public static String inputName() {
         boolean check = false;
         String name = "";
@@ -90,7 +89,7 @@ public class Inputter {
         } while (!check);
         return name;
     }
-    
+
     public static String inputPhone() {
         boolean check = false;
         String phone = "";
@@ -106,7 +105,7 @@ public class Inputter {
         } while (!check);
         return phone;
     }
-    
+
     public static String inputEmail() {
         boolean check = false;
         String email = "";
@@ -122,7 +121,7 @@ public class Inputter {
         } while (!check);
         return email;
     }
-    
+
     public static int getOrderCode() {
         List<Integer> existingCodes = new ArrayList<>();
         for (PLaceFeastOrder pLaceFeastOrder : feastOrderList) {
@@ -130,7 +129,7 @@ public class Inputter {
         }
         return generateNextCode(existingCodes);
     }
-    
+
     public static int generateNextCode(List<Integer> existingCode) {
         int nextCode = 1;
         while (existingCode.contains(nextCode)) {
@@ -138,7 +137,7 @@ public class Inputter {
         }
         return nextCode;
     }
-    
+
     public static String getCustomerCode() {
         Customer customer;
         while (true) {
@@ -152,10 +151,10 @@ public class Inputter {
                 System.out.println("This customer had not registered yet!");
             }
         }
-        
+
         return customer.getCustomerCode();
     }
-    
+
     public static String getFeastMenuCode() {
         FeastMenu feastMenu;
         while (true) {
@@ -171,23 +170,31 @@ public class Inputter {
         }
         return feastMenu.getId();
     }
-    
+
     public static int inputNumOfTable() {
-        int numOfTable;
+        String numOfTable;
         while (true) {
             Scanner sc = new Scanner(System.in);
             System.out.print("Enter number of table: ");
-            numOfTable = sc.nextInt();
-            
-            if (numOfTable > 0) {
-                break;
+            numOfTable = sc.nextLine();
+
+            if (numOfTable.isEmpty()) {
+                System.out.println("Invalid input, please enter a number!");
             } else {
-                System.out.println("Invalid number of table!");
+                try {
+                    int numberOfTables = Integer.parseInt(numOfTable);
+                    if (numberOfTables > 0) {
+                        return numberOfTables;
+                    } else {
+                        System.out.println("Invalid input, please try again!");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input, please enter a number");
+                }
             }
         }
-        return numOfTable;
     }
-    
+
     public static String inputDate() {
         String dateTime = "";
         LocalDate inputDay;
@@ -198,25 +205,25 @@ public class Inputter {
                 System.out.print("Enter date you want to order(dd/MM/YYYY): ");
                 dateTime = sc.nextLine();
                 inputDay = LocalDate.parse(dateTime, formatter);
-                
+
                 if (inputDay.isAfter(LocalDate.now())) {
                     break;
                 } else if (inputDay.isBefore(LocalDate.now())) {
                     System.out.println("You must be enter a day after today!");
                 }
-                
+
             } catch (DateTimeException e) {
                 System.out.println("Invalid date format, please try again!");
             }
         }
         return dateTime;
     }
-    
+
     public static String totalCostOfSetMenu(int tables, String codeOfSetMenu) {
         FeastMenu fm = getFeastMenuListInfor(codeOfSetMenu);
         return String.format("%,.0f", (double) tables * fm.getPrice());
     }
-    
+
     public static String OrderSetPrice(String codeOfSetMenu) {
         FeastMenu fm = getFeastMenuListInfor(codeOfSetMenu);
         return String.format("%,.0f", fm.getPrice());

@@ -47,8 +47,13 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         String orderSetPrice = Inputter.OrderSetPrice(codeOfSetMenu);
 
         PLaceFeastOrder placeFeasrOrder = new PLaceFeastOrder(orderCode, customerCode, codeOfSetMenu, numOfTable, orderDate, totalCost, orderSetPrice);
-        feastOrderList.add(placeFeasrOrder);
-        printOrder(placeFeasrOrder);
+        if (checkIfPlaceOrderDupplicate(placeFeasrOrder)) {
+            feastOrderList.add(placeFeasrOrder);
+            printOrder(placeFeasrOrder);
+            continueToAddOrder();
+        } else {
+            System.out.println("Dupplicate data!");
+        }
     }
 
     public static void printOrder(PLaceFeastOrder pfo) {
@@ -59,6 +64,7 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         System.out.println("------------------------------------------------------------------------");
         System.out.println("Customer code   :" + pfo.getCustomerCode());
         System.out.println("Customer name   :" + cs.getCustomerName());
+
         System.out.println("Phone number    :" + cs.getPhoneNumber());
         System.out.println("Email           :" + cs.getEmail());
         System.out.println("------------------------------------------------------------------------");
@@ -90,6 +96,32 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         }
     }
 
+    public static void continueToAddOrder() {
+        Scanner sc = new Scanner(System.in);
+        String choice = sc.nextLine();
+        while (true) {
+            if (choice.equalsIgnoreCase("y")) {
+                addFeastOrder();
+                break;
+            } else if (choice.equalsIgnoreCase("n")) {
+                break;
+            } else {
+                System.out.println("Invalid input, please try again! [Y/N]");
+            }
+        }
+    }
+
+    public static boolean checkIfPlaceOrderDupplicate(PLaceFeastOrder pfo1) {
+        for (PLaceFeastOrder pLaceFeastOrder : feastOrderList) {
+            if (pLaceFeastOrder.getCustomerCode().contains(pfo1.getCustomerCode())
+                    && pLaceFeastOrder.getCodeOfSetMenu().contains(pfo1.getCodeOfSetMenu())
+                    && pLaceFeastOrder.getEventDate().contains(pfo1.getEventDate())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void updateOrderInfor() {
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -104,7 +136,7 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
             sc.nextLine();
             if (checkEventDay) {
                 while (true) {
-                    System.out.print("Enter new CODE OD SET MENU, If Not Change PRESS 'ENTER'");
+                    System.out.print("Enter new CODE OR SET MENU, If Not Change PRESS 'ENTER': ");
                     String codeOfSetMenu = sc.nextLine();
                     if (!codeOfSetMenu.isEmpty()) {
                         pfo.setCodeOfSetMenu(codeOfSetMenu);
@@ -116,19 +148,27 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
                 }
 
                 while (true) {
-                    System.out.print("Enter new NUMBER OF TABLE, If Not Change PRESS 'ENTER'");
+                    System.out.print("Enter new NUMBER OF TABLE, If Not Change PRESS 'ENTER': ");
                     String updateNumOfTable = sc.nextLine();
                     if (updateNumOfTable.isEmpty()) {
                         System.out.println("Skipping");
                         break;
-                    } else if (Integer.parseInt(updateNumOfTable) > 0) {
-                        pfo.setNumberOfTable(orderCode);
-                        break;
+                    } else {
+                        try {
+                            int numOfTables = Integer.parseInt(updateNumOfTable);
+                            if (numOfTables > 0) {
+                                pfo.setNumberOfTable(numOfTables);
+                            } else {
+                                System.out.println("Invalid input, please try again!");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid input! PLease enter a number");
+                        }
                     }
                 }
 
                 while (true) {
-                    System.out.print("Enter EVENT DATE you want to update( dd/MM/YYYY), If Not Change PRESS 'ENTER' ");
+                    System.out.print("Enter EVENT DATE you want to update(dd/MM/YYYY), If Not Change PRESS 'ENTER': ");
                     String dateTime = sc.nextLine();
 
                     if (dateTime.isEmpty()) {
@@ -136,7 +176,7 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
                         break;
                     }
                     try {
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                         LocalDate inputDay = LocalDate.parse(dateTime, formatter);
 
                         if (inputDay.isAfter(LocalDate.now())) {
