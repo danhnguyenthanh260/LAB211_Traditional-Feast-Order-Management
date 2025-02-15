@@ -45,7 +45,7 @@ public class Menu {
 
     public static void printPlaceFeastOrderMenu() {
         System.out.println("---------------------------------------------------------------------------------------------------------");
-        System.out.println("ID   | Event date  | Customer ID| Set Menu| Price     | Tables | Cost                      ");
+        System.out.println("ID   | Event date | Customer ID| Set Menu| Price     | Tables | Cost                      ");
         System.out.println("---------------------------------------------------------------------------------------------------------");
     }
 

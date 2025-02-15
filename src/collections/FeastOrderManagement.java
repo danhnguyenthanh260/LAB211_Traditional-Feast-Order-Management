@@ -189,9 +189,9 @@ public class FeastOrderManagement implements Comparator<PLaceFeastOrder> {
         try (FileInputStream fis = new FileInputStream("src/data/feast_order_service.dat");
                 ObjectInputStream ois = new ObjectInputStream(fis);) {
             feastOrderList = (ArrayList<PLaceFeastOrder>) ois.readObject();
-            System.out.println("Had been upload data from `feast_order_service.dat``");
+            System.out.println("Had been upload data from `feast_order_service.dat`");
         } catch (FileNotFoundException e) {
-            System.out.println("Can not find 'customer.dat'");
+            System.out.println("Can not find `feast_order_service.dat`");
         } catch (IOException e) {
             System.out.println("Error to read from file " + e.getMessage());
         } catch (ClassNotFoundException e) {

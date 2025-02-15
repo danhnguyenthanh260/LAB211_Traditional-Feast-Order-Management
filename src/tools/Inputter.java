@@ -129,7 +129,7 @@ public class Inputter {
                 return i;
             }
         }
-        return i;
+        return ++i;
     }
 
     public static String getCustomerCode() {
